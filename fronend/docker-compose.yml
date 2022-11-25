@@ -1,0 +1,21 @@
+version: "3.8"
+
+services:
+  postgres:
+    container_name: sellcoda_cart
+    image: postgres
+    environment:
+      - POSTGRES_DB=sellcoda_cart
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=12qwaszX
+    ports:
+      - "5432:5432"
+  redis:
+    container_name: sellcoda_cart_redis
+    image: redis
+    # environment:
+    #   - REDIS_DB=sellcoda_cart
+    #   - REDIS_USERNAME=redis
+    #   - REDIS_PASSWORD=12qwaszX
+    ports:
+      - "6379:6379"
