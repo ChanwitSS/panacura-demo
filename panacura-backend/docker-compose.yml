@@ -1,21 +1,27 @@
 version: "3.8"
 
 services:
+  
   postgres:
-    container_name: sellcoda_cart
+    container_name: panacura_postgres
     image: postgres
     environment:
-      - POSTGRES_DB=sellcoda_cart
+      - POSTGRES_DB=panacura
       - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=12qwaszX
+      - POSTGRES_PASSWORD=postgres
     ports:
       - "5432:5432"
-  redis:
-    container_name: sellcoda_cart_redis
-    image: redis
-    # environment:
-    #   - REDIS_DB=sellcoda_cart
-    #   - REDIS_USERNAME=redis
-    #   - REDIS_PASSWORD=12qwaszX
+    volumes:
+      - ./db/postgres-init.sql:/db/postgres-init.sql
+  mongo:
+    container_name: panacura_mongo
+    image: mongo
+    restart: always
+    environment:
+      - MONGO_INITDB_ROOT_DATABASE=panacura
+      - MONGO_INITDB_ROOT_USERNAME=mongo
+      - MONGO_INITDB_ROOT_PASSWORD=mongo
     ports:
-      - "6379:6379"
+      - "27017:27017"
+    volumes:
+      - ./db/mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js

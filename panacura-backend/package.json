@@ -18,15 +18,33 @@
     "test:watch": "jest --watch",
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
-    "test:e2e": "jest --config ./test/jest-e2e.json"
+    "test:e2e": "jest --config ./test/jest-e2e.json",
+    "postgres-typeorm": "ts-node --files -r tsconfig-paths/register ./node_modules/typeorm/cli.js -d src/config/postgres-db.config.ts",
+    "postgres-migration:generate": "npm run postgres-typeorm migration:generate src/migrations/postgres/$npm_config_name",
+    "postgres-migration:run": "npm run postgres-typeorm migration:run",
+    "postgres-migration:revert": "npm run postgres-typeorm migration:revert",
+    "mongo-typeorm": "ts-node --files -r tsconfig-paths/register ./node_modules/typeorm/cli.js -d src/config/mongo-db.config.ts",
+    "mongo-migration:generate": "npm run mongo-typeorm migration:generate src/migrations/mongo/$npm_config_name",
+    "mongo-migration:run": "npm run mongo-typeorm migration:run",
+    "mongo-migration:revert": "npm run mongo-typeorm migration:revert"
   },
   "dependencies": {
     "@nestjs/common": "^9.0.0",
+    "@nestjs/config": "^2.2.0",
     "@nestjs/core": "^9.0.0",
+    "@nestjs/mongoose": "^9.2.1",
     "@nestjs/platform-express": "^9.0.0",
+    "@nestjs/swagger": "^6.1.3",
+    "@nestjs/typeorm": "^9.0.1",
+    "mongoose": "^6.7.3",
+    "pg": "^8.8.0",
     "reflect-metadata": "^0.1.13",
     "rimraf": "^3.0.2",
-    "rxjs": "^7.2.0"
+    "rxjs": "^7.2.0",
+    "typeorm": "^0.3.10",
+    "typeorm-naming-strategies": "^4.1.0",
+    "vcard": "^0.1.0",
+    "vcardparser": "^1.0.3"
   },
   "devDependencies": {
     "@nestjs/cli": "^9.0.0",
