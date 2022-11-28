@@ -1,5 +1,6 @@
-import { Controller, Get, Param } from '@nestjs/common';
+import { Controller, Get, Param, Query } from '@nestjs/common';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
+import { QueryClinvarDto } from '../dtos';
 import { ClinvarService } from '../services';
 
 @ApiBearerAuth()
@@ -9,8 +10,8 @@ export class ClinvarController {
   constructor(private clinvarService: ClinvarService) {}
 
   @Get('/postgres')
-  findAllOnPostgres() {
-    return this.clinvarService.findAllOnPostgres();
+  findAllOnPostgres(@Query() query: QueryClinvarDto) {
+    return this.clinvarService.findAllOnPostgres(query);
   }
 
   @Get('/postgres/:id')
@@ -19,8 +20,8 @@ export class ClinvarController {
   }
 
   @Get('/mongo')
-  findAllOnMongo() {
-    return this.clinvarService.findAllOnMongo();
+  findAllOnMongo(@Query() query: QueryClinvarDto) {
+    return this.clinvarService.findAllOnMongo(query);
   }
 
   @Get('/mongo/:id')

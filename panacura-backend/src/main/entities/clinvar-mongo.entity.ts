@@ -1,7 +1,9 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
 
-@Schema()
+@Schema({
+  collection: 'clinvars',
+})
 export class ClinvarMongo extends Document {
   @Prop()
   pos: string;
