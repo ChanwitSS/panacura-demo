@@ -33,6 +33,7 @@ import { MongooseModule } from '@nestjs/mongoose';
       imports: [ConfigModule],
       useFactory: (configService: ConfigService) => ({
         uri: configService.get<string>('DB_MONGO_URL'),
+        
         useNewUrlParser: true,
       }),
       inject: [ConfigService],
