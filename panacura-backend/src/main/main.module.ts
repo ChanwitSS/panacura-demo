@@ -1,13 +1,16 @@
 import { Module } from '@nestjs/common';
+import { MongooseModule } from '@nestjs/mongoose';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ClinvarController } from './controllers';
-import { Clinvar, ClinvarMongo, ClinvarPostgres } from './entities';
+import { ClinvarMongo, ClinvarMongoSchema, ClinvarPostgres } from './entities';
 import { ClinvarService } from './services';
 
 @Module({
   imports: [
     TypeOrmModule.forFeature([ClinvarPostgres], 'postgres-db'),
-    TypeOrmModule.forFeature([ClinvarMongo], 'mongo-db'),
+    MongooseModule.forFeature([
+      { name: ClinvarMongo.name, schema: ClinvarMongoSchema },
+    ]),
   ],
   controllers: [ClinvarController],
   providers: [ClinvarService],

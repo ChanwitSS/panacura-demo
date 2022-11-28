@@ -6,6 +6,7 @@ import postgresDbConfig from './config/postgres-db.config';
 import { TypeOrmModule, TypeOrmModuleOptions } from '@nestjs/typeorm';
 import mongoDbConfig from './config/mongo-db.config';
 import { MainModule } from './main/main.module';
+import { MongooseModule } from '@nestjs/mongoose';
 
 @Module({
   imports: [
@@ -27,6 +28,14 @@ import { MainModule } from './main/main.module';
       name: 'mongo-db',
       useFactory: (configService: ConfigService) =>
         configService.get<TypeOrmModuleOptions>('mongo-db'),
+    }),
+    MongooseModule.forRootAsync({
+      imports: [ConfigModule],
+      useFactory: (configService: ConfigService) => ({
+        uri: configService.get<string>('DB_MONGO_URL'),
+        useNewUrlParser: true,
+      }),
+      inject: [ConfigService],
     }),
     MainModule,
   ],

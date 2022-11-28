@@ -1,5 +1,7 @@
 import { Injectable } from '@nestjs/common';
+import { InjectModel } from '@nestjs/mongoose';
 import { InjectRepository } from '@nestjs/typeorm';
+import { Model } from 'mongoose';
 import { Repository } from 'typeorm';
 import { Clinvar, ClinvarMongo, ClinvarPostgres } from '../entities';
 
@@ -8,17 +10,12 @@ export class ClinvarService {
   constructor(
     @InjectRepository(ClinvarPostgres, 'postgres-db')
     private clinvarPostgresRepository: Repository<ClinvarPostgres>,
-    @InjectRepository(ClinvarMongo, 'mongo-db')
-    private clinvarMongoRepository: Repository<ClinvarMongo>,
+    @InjectModel(ClinvarMongo.name)
+    private clinvarModel: Model<ClinvarMongo>,
   ) {}
 
   async findAllOnPostgres() {
     const qb = this.clinvarPostgresRepository.createQueryBuilder();
-    return qb.getMany();
-  }
-
-  async findAllOnMongo() {
-    const qb = this.clinvarMongoRepository.createQueryBuilder();
     return qb.getMany();
   }
 
@@ -29,8 +26,11 @@ export class ClinvarService {
     return qb.getOne();
   }
 
+  async findAllOnMongo() {
+    return await this.clinvarModel.find();
+  }
+
   async findOnMongo(id: string) {
-    const qb = this.clinvarMongoRepository.createQueryBuilder().where({ id });
-    return qb.getOne();
+    return this.clinvarModel.findOne();
   }
 }
