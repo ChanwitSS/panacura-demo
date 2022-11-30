@@ -22,18 +22,17 @@ import { MongooseModule } from '@nestjs/mongoose';
       useFactory: (configService: ConfigService) =>
         configService.get<TypeOrmModuleOptions>('postgres-db'),
     }),
-    TypeOrmModule.forRootAsync({
-      imports: [ConfigModule],
-      inject: [ConfigService],
-      name: 'mongo-db',
-      useFactory: (configService: ConfigService) =>
-        configService.get<TypeOrmModuleOptions>('mongo-db'),
-    }),
     MongooseModule.forRootAsync({
       imports: [ConfigModule],
       useFactory: (configService: ConfigService) => ({
         uri: configService.get<string>('DB_MONGO_URL'),
-        
+        // uri: `mongodb://${configService.get<string>(
+        //   'DB_MONGO_USERNAME',
+        // )}:${configService.get<string>(
+        //   'DB_MONGO_PASSWORD',
+        // )}@${configService.get<string>(
+        //   'DB_MONGO_HOST',
+        // )}:${configService.get<string>('DB_MONGO_PORT')}`,
         useNewUrlParser: true,
       }),
       inject: [ConfigService],

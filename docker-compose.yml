@@ -1,0 +1,57 @@
+version: "3.8"
+
+services:
+  postgres:
+    container_name: panacura_postgres
+    image: postgres
+    environment:
+      - POSTGRES_DB=panacura
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./panacura-backend/db/postgres-init.sql:/docker-entrypoint-initdb.d/postgres-init.sql
+  mongo:
+    container_name: panacura_mongo
+    image: mongo
+    restart: always
+    environment:
+      - MONGO_INITDB_ROOT_DATABASE=panacura
+      - MONGO_INITDB_ROOT_USERNAME=mongo
+      - MONGO_INITDB_ROOT_PASSWORD=mongo
+    ports:
+      - "27017:27017"
+    volumes:
+      - ./panacura-backend/db/mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js
+  frontend:
+    container_name: panacura-frontend
+    build: ./panacura-frontend
+    volumes:
+      - './panacura-frontend/:/app'
+      - '/panacura-frontend/app/node_modules'
+    ports:
+      - 3000:3000
+    stdin_open: true
+    command: npm start
+  backend:
+    container_name: panacura-backend
+    build: ./panacura-backend
+    volumes:
+      - './panacura-backend/:/app'
+      - '/panacura-backend/app/node_modules'
+    ports:
+      - 4002:4002
+    depends_on:
+      - postgres
+      - mongo
+    stdin_open: true
+    command: npm start
+    environment:
+      - DB_POSTGRES_HOST=postgres
+      - DB_POSTGRES_PORT=5432
+      - DB_POSTGRES_USER=postgres
+      - DB_POSTGRES_PASSWORD=postgres
+      - DB_POSTGRES_NAME=panacura
+      - DB_MONGO_URL=mongodb://mongo:mongo@mongo:27017
+      # - NODE_ENV
