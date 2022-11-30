@@ -12,7 +12,7 @@ services:
     ports:
       - "5432:5432"
     volumes:
-      - ./db/postgres-init.sql:/db/postgres-init.sql
+      - ./db/postgres-init.sql:/docker-entrypoint-initdb.d/postgres-init.sql
   mongo:
     container_name: panacura_mongo
     image: mongo

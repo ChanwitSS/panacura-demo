@@ -4,8 +4,8 @@ import { QueryClinvarDto } from '../dtos';
 import { ClinvarService } from '../services';
 
 @ApiBearerAuth()
-@ApiTags('clinvar')
-@Controller('clinvar')
+@ApiTags('clinvars')
+@Controller('clinvars')
 export class ClinvarController {
   constructor(private clinvarService: ClinvarService) {}
 

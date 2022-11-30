@@ -1,26 +1,28 @@
-import React from 'react';
-import logo from './logo.svg';
 import './App.css';
+import { Provider, useDispatch, useSelector } from 'react-redux';
+import { createTheme, ThemeProvider } from '@mui/material';
+import { BrowserRouter } from 'react-router-dom';
+import store from './store';
+import MainApp from './main/MainApp';
 
-function App() {
+const theme = createTheme({
+  // palette: {
+  //   primary: {
+  //     main: "#565656",
+  //   },
+  //   secondary: {
+  //     main: "#f44336",
+  //   },
+  // },
+});
+
+const App = () => {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Provider store={store}>
+      <BrowserRouter>
+        <ThemeProvider theme={theme}>{MainApp()}</ThemeProvider>
+      </BrowserRouter>
+    </Provider>
   );
-}
-
+};
 export default App;
